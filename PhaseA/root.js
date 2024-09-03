@@ -6,6 +6,7 @@ import { createStackNavigator } from '@react-navigation/stack';
 import HomeScreen from './screens/HomeScreen';
 import SettingsScreen from './screens/SettingsScreen';
 import ProductScreen from './screens/ProductScreen';
+import AntDesign from '@expo/vector-icons/AntDesign';
 
 
 const Root = () => {
@@ -16,10 +17,29 @@ const Root = () => {
     function MyTabs() {
         return (
             <Tab.Navigator screenOptions={{
-                headerShown: false
+                headerShown: false,
+                tabBarShowLabel: false
             }}>
-                <Tab.Screen name="Home" component={HomeScreen} />
-                <Tab.Screen name="Settings" component={SettingsScreen} />
+                <Tab.Screen name="Home"
+                    component={HomeScreen}
+                    options={{
+                        tabBarIcon: () => {
+                            return (
+                                <AntDesign name="home" size={25} color="black" />
+                            )
+                        }
+                    }}
+                />
+                <Tab.Screen name="Settings"
+                    component={SettingsScreen}
+                    options={{
+                        tabBarIcon: () => {
+                            return (
+                                <AntDesign name="setting" size={24} color="black" />
+                            )
+                        }
+                    }}
+                />
             </Tab.Navigator>
         );
     }

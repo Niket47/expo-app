@@ -2,24 +2,43 @@ import { createSlice } from '@reduxjs/toolkit'
 
 const initialState = {
     value: 0,
+    cartData: []
 }
 
-export const counterSlice = createSlice({
+export const cartSlice = createSlice({
     name: 'cart',
     initialState,
     reducers: {
-        increment: (state) => {
-            state.value += 1
+        addToCart: (state, action) => {
+            const itemPresent = state.cartData.find((item) => item.id == action.payload?.id)
+            if (itemPresent) {
+                itemPresent.quantity++
+            } else {
+                state.cartData.push({ ...action.payload, quantity: 1 })
+            }
         },
-        decrement: (state) => {
-            state.value -= 1
+        onIncrement: (state, action) => {
+            const itemPresent = state.cartData.find((item) => item.id == action.payload?.id)
+            if (itemPresent) {
+                itemPresent.quantity++
+            }
         },
-        incrementByAmount: (state, action) => {
-            state.value += action.payload
+        onDecrement: (state, action) => {
+            const itemPresent = state.cartData.find((item) => item.id == action.payload?.id)
+            if (itemPresent.quantity == 1) {
+                itemPresent.quantity = 0;
+                const removeItem = state.cartData.filter((item) => item.id !== action.payload?.id)
+                state.cartData = removeItem
+            } else {
+                itemPresent.quantity--
+            }
         },
+        onDeleteFromCart: (state, action) => {
+            state.cartData.filter((item) => item.id !== action.payload?.id)
+        }
     },
 })
 
-export const { increment, decrement, incrementByAmount } = counterSlice.actions
+export const { onIncrement, onDecrement, addToCart, onDeleteFromCart } = cartSlice.actions
 
-export default counterSlice.reducer
+export default cartSlice.reducer
